@@ -47,12 +47,6 @@ jobs:
         USERNAME: ${{ github.actor }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Upload SpringBoot Jar
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: ${{ github.repository.name }}.jar
-        path: build/libs/${{ github.repository.name }}.jar
-
     - name: Docker Build
       run: docker build . --file Dockerfile --tag $IMAGE_NAME
 

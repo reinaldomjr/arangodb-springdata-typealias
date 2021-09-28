@@ -40,6 +40,10 @@ jar {
     enabled = false
 }
 
+bootJar {
+    archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+}
+
 /* Github Package Repository Credentials */
 /**
  * Tenta obter as configurações do gradle.properties, se não existir, busca da variável de ambiente.
