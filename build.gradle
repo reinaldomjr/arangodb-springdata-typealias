@@ -36,6 +36,10 @@ test {
     useJUnitPlatform()
 }
 
+jar {
+    enabled = false
+}
+
 /* Github Package Repository Credentials */
 /**
  * Tenta obter as configurações do gradle.properties, se não existir, busca da variável de ambiente.
