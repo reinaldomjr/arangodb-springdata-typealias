@@ -53,22 +53,6 @@ jobs:
         name: ${{ github.repository.name }}.jar
         path: build/libs/${{ github.repository.name }}.jar
 
-
-  build-docker-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.0.10
-      with:
-        name: ${{ github.repository.name }}.jar
-        path: build/libs/${{ github.repository.name }}.jar
-
     - name: Docker Build
       run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
