@@ -19,7 +19,7 @@ env:
   IMAGE_NAME: iam
 
 jobs:
-  build-jar:
+  build-and-publish:
     runs-on: ubuntu-latest
     permissions:
       contents: read
