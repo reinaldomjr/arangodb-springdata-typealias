@@ -44,8 +44,8 @@ jar {
 /**
  * Tenta obter as configurações do gradle.properties, se não existir, busca da variável de ambiente.
  **/
-def gprUser = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-def gprToken = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+def gprUser = project.findProperty("github.user") ?: System.getenv("USERNAME")
+def gprToken = project.findProperty("github.token") ?: System.getenv("TOKEN")
 
 logger.warn('Actor: ' + gprUser)
 logger.warn('Actor: ' + gprToken)

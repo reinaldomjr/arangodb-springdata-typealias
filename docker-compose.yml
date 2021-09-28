@@ -1,19 +1,18 @@
 version: '3.7'
 services:
-#  Database-ArangoDB:
-#    image: arangodb:3.6.0
-#    environment:
-#      ARANGO_ROOT_PASSWORD: rootpassword
-#    ports:
-#      - 8529:8529
-#    volumes:
-#      - arangodb_data_container:/var/lib/arangodb3
-#      - arangodb_apps_data_container:/var/lib/arangodb3-apps
-
-  Application-IAM:
-    image: local/iam:latest
+  arangoDB:
+    image: arangodb:3.6.0
     environment:
-      ARANGODB_HOSTNAME: 192.168.1.20
+      ARANGO_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8529:8529"
+    volumes:
+      - arangodb_data_container:/var/lib/arangodb3
+      - arangodb_apps_data_container:/var/lib/arangodb3-apps
+  iam:
+    image: ghcr.io/hiveflow/iam/iam:0.0.2
+    environment:
+      ARANGODB_HOSTNAME: arangoDB
     ports:
       - "80:9000"
 

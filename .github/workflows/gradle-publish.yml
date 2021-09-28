@@ -1,19 +1,26 @@
-# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+# This workflow will build the project and publish the maven artifact and the docker image to the github repository
+#
+# Can be manually triggered only for `main` branch
+#
+# Will be automatically triggered for releases names starting with a `v`
+# Ex: `v0.0.1`, `v10.15.123`
 
 name: Gradle Package
 
 on:
-  workflow_dispatch:
-  release:
+  workflow_dispatch: # Manual trigger
+    branches:
+      - main
+  release: # Release creation trigger
+    tags:
+      - v*
     types: [published]
 
 env:
   IMAGE_NAME: iam
 
 jobs:
-  build:
-
+  build-jar:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -21,10 +28,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Get the version
-      id: get_version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
     - name: Set up JDK 17
       uses: actions/setup-java@v2
@@ -66,6 +69,10 @@ jobs:
 
         # Strip "v" prefix from tag name
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+        # Use Docker `latest` tag convention for `main` branch
+        [ "$VERSION" == "main" ] && VERSION=latest
+
 
         echo $IMAGE_ID:$VERSION
 
