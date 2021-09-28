@@ -14,5 +14,7 @@
         github.token=[GITHUB_ACCESS_TOKEN]
        ```
 3. Clone github repository using this URL: `git@github.com:hiveflow/iam.git`
-4. To build the project use the command `gradle build`
-5. To run the project use `gradle bootRun`
+4. Login on GitHub repository using the same credentials
+   1. `docker login ghcr.io -u GITHUB_USERNAME -p GITHUB_ACCESS_TOKEN`
+5. To build the project use the command `gradle build`
+6. To run the project use `gradle bootRun`
