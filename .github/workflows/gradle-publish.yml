@@ -1,6 +1,6 @@
 # This workflow will build the project and publish the maven artifact and the docker image to the github repository
 #
-# Can be manually triggered only for `main` branch
+# Can be manually triggered
 #
 # Will be automatically triggered for releases names starting with a `v`
 # Ex: `v0.0.1`, `v10.15.123`
@@ -9,8 +9,7 @@ name: Gradle Package
 
 on:
   workflow_dispatch: # Manual trigger
-    branches:
-      - main
+
   release: # Release creation trigger
     tags:
       - v*
@@ -41,15 +40,34 @@ jobs:
 
     - name: Build with Gradle
       run: gradle build
-
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
+      
     - name: Publish to GitHub Packages
       run: gradle publish
       env:
         USERNAME: ${{ github.actor }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload SpringBoot Jar
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: ${{ github.repository.name }}.jar
+        path: build/libs/${{ github.repository.name }}.jar
 
+
+  build-docker-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2.0.10
+      with:
+        name: ${{ github.repository.name }}.jar
+        path: build/libs/${{ github.repository.name }}.jar
 
     - name: Docker Build
       run: docker build . --file Dockerfile --tag $IMAGE_NAME
@@ -78,3 +96,4 @@ jobs:
 
         docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
+        
