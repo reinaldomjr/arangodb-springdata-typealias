@@ -61,6 +61,8 @@ jobs:
         # Change all uppercase to lowercase
         IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
+        echo BRANCH=${GITHUB_REF#refs/heads/}
+
         # Strip git ref prefix from version
         VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
         echo VERSION=$VERSION
@@ -75,6 +77,6 @@ jobs:
         docker push $IMAGE_ID:$VERSION
 
         # Use Docker `latest` tag convention
-        [ "$VERSION" == "main" ] && VERSION=latest
+        [ "$BRANCH" == "main" ] && VERSION=latest
         docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
         docker push $IMAGE_ID:$VERSION
