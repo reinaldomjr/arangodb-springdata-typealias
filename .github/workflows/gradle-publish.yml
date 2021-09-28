@@ -69,7 +69,6 @@ jobs:
         # Use Docker `latest` tag convention for `main` branch
         [ "$VERSION" == "main" ] && VERSION=latest
 
-
         echo $IMAGE_ID:$VERSION
 
         docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
