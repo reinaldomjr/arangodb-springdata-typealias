@@ -17,7 +17,7 @@ public class DefaultSecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated()
+                        authorizeRequests.anyRequest().permitAll()
                 )
                 .formLogin(withDefaults());
         return http.build();
