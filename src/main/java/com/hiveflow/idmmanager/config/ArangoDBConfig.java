@@ -19,7 +19,7 @@ public class ArangoDBConfig implements ArangoConfiguration {
 
     @Override
     public String database() {
-        return "hiveflow-iam";
+        return "animals";
     }
 
 }
